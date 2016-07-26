@@ -58,11 +58,7 @@ class ViewController: UIViewController {
                 print(data)
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     if error == nil {
-                        self.pedometerLabel.text = "\(data!.numberOfSteps)"
-                        self.cirlceProgressBar.dataSource = self
-                        self.cirlceProgressBar.linePercentage = 0.02
-                        self.cirlceProgressBar.percentage = 0.5
-                        self.cirlceProgressBar.animatesBegining = false
+                        self.pedometerLabel.text = "\(data!.numberOfSteps) Steps"
                     }
                 })
             }
@@ -70,7 +66,13 @@ class ViewController: UIViewController {
             self.pedometer.startPedometerUpdatesFromDate(midnightOfToday!, withHandler: { (data: CMPedometerData?, error) in
                 dispatch_async(dispatch_get_main_queue(), { 
                     if error == nil {
-                        self.pedometerLabel.text = "\(data!.numberOfSteps)"
+                        self.pedometerLabel.text = "\(data!.numberOfSteps) Steps"
+//                        self.cirlceProgressBar.dataSource = self
+                        self.cirlceProgressBar.linePercentage = 0.1 // line thickness
+                        let toInt = data!.numberOfSteps as Double //convert NSNumber to do operations
+                        let ofDailyGoal = toInt/5000.0 // 5000 steps goal, will change
+                        self.cirlceProgressBar.percentage = CGFloat(ofDailyGoal) // convert back to compatible format
+                        self.cirlceProgressBar.animatesBegining = false
                     }
                 })
             })
